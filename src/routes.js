@@ -24,13 +24,13 @@ export const routes = [
         method: 'GET',
         path: buildRoutePath('/tasks'),
         handler: (req, res) => {
-            const { query } = req.query;
-            const tasks = database.list('tasks', query ? {
-                title: query,
-                description: query
+            const { search } = req.query;
+            const tasks = database.list('tasks', search ? {
+                title: search,
+                description: search
             }: null);
 
-            return res.writeHead(200).end(tasks);
+            return res.writeHead(200).end(JSON.stringify(tasks));
         }
     },
     {
@@ -41,7 +41,7 @@ export const routes = [
             
             database.update('tasks', id, req.body);
             
-            return res.writeHead(204);
+            return res.writeHead(204).end();
         }
     },
     {
@@ -53,7 +53,7 @@ export const routes = [
 
             database.delete('tasks', id);
 
-            return res.writeHead(204);
+            return res.writeHead(204).end();
 
         }
     },
@@ -65,7 +65,7 @@ export const routes = [
 
             database.completeTask('tasks', id);
 
-            return res.writeHead(204);
+            return res.writeHead(204).end();
         }
     }
 ]
